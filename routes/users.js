@@ -1,15 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport')
-const User = require('../models/user');
+const passport = require('passport');
 const catchAsync = require('../utils/catchAsync');
+const User = require('../models/user');
 const { storeReturnTo } = require('../middleware');
-
-
 router.get('/register', (req, res) => {
     res.render('users/register');
 });
-
 
 router.post('/register', catchAsync(async (req, res, next) => {
     try
@@ -22,14 +19,13 @@ router.post('/register', catchAsync(async (req, res, next) => {
             req.flash('success', 'Welcome to Yelp Camp!');
             res.redirect('/campgrounds');
         })
-
-    }
-    catch (e)
+    } catch (e)
     {
         req.flash('error', e.message);
         res.redirect('register');
     }
 }));
+
 router.get('/login', (req, res) => {
     res.render('users/login');
 })
@@ -37,7 +33,7 @@ router.get('/login', (req, res) => {
 router.post('/login', storeReturnTo, passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), (req, res) => {
     req.flash('success', 'welcome back!');
     const redirectUrl = res.locals.returnTo || '/campgrounds';
-    delete req.session.returnTo;
+    delete res.locals.returnTo;
     res.redirect(redirectUrl);
 })
 
@@ -51,4 +47,5 @@ router.get('/logout', (req, res, next) => {
         res.redirect('/campgrounds');
     });
 });
+
 module.exports = router;
