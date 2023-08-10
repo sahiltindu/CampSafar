@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const { campgroundSchema } = require('../schemas.js');
+const { isLoggedIn } = require('../middleware');
 
 const ExpressError = require('../utils/ExpressError');
 const Campground = require('../models/campground');
@@ -18,12 +19,13 @@ const validateCampground = (req, res, next) => {
     }
 }
 
-router.get('/', catchAsync(async (req, res) => {
+router.get('/', isLoggedIn, catchAsync(async (req, res) => {
     const campgrounds = await Campground.find({});
     res.render('campgrounds/index', { campgrounds })
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
+
     res.render('campgrounds/new');
 })
 
