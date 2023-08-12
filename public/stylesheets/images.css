@@ -1,0 +1,14 @@
+#formFile {
+    display: flex;
+    flex-wrap: wrap;
+    height: auto;
+}
+
+#formFile img {
+    height: 100px;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+    opacity: 85%;
+}
